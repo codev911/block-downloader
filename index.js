@@ -38,12 +38,10 @@ async function blockScrapper(){
         }catch(e){
             console.log("retry at block : ", a);
 
-            // if(
-            //     e.code === "SERVER_ERROR" ||
-            //     e['code'] === "SERVER_ERROR" ||
-            //     (JSON.stringify(e)).contains("SERVER_ERROR")
-            // ){
-            if(e.code === "SERVER_ERROR"){
+            if(
+                e.code === "SERVER_ERROR" ||
+                e['code'] === "SERVER_ERROR"
+            ){
                 const getLength = rpcaddresses.length;
                 const getUnixDate = (new Date()).getTime();
                 const getRandom = getUnixDate % getLength;
@@ -58,7 +56,7 @@ async function blockScrapper(){
 }
 
 async function scrapperExecutor(block){
-    await rpc.getBlockWithTransactions(block).then(function(){
+    await rpc.getBlockWithTransactions(block).then(function(blockData){
         if (blockData.transactions.length > 0) {
             console.log(blockData.number, ": processing");
     
